@@ -16,24 +16,28 @@ interface Props {
 
 export const Fab = ({title, onPress, position = 'br'}: Props) => {
   const android = () => {
-    <View
-      style={[
-        styles.fabLocation,
-        position === 'bl' ? styles.left : styles.right,
-      ]}>
-      <TouchableNativeFeedback
-        onPress={onPress}
-        background={TouchableNativeFeedback.Ripple('#28425B', true, 30)}>
-        <View style={styles.fab}>
-          <Text style={styles.fabText}>{title}</Text>
-        </View>
-      </TouchableNativeFeedback>
-    </View>;
+    return (
+      <View
+        style={[
+          styles.fabLocation,
+          position === 'bl' ? styles.left : styles.right,
+        ]}>
+        <TouchableNativeFeedback
+          onPress={onPress}
+          background={TouchableNativeFeedback.Ripple('#28425B', true, 30)}>
+          <View style={styles.fab}>
+            <Text style={styles.fabText}>{title}</Text>
+          </View>
+        </TouchableNativeFeedback>
+      </View>
+    );
   };
 
   const ios = () => {
     return (
       <TouchableOpacity
+        onPress={onPress}
+        activeOpacity={0.8}
         style={[
           styles.fabLocation,
           position === 'bl' ? styles.left : styles.right,
@@ -45,22 +49,7 @@ export const Fab = ({title, onPress, position = 'br'}: Props) => {
     );
   };
 
-  return (
-    // <TouchableOpacity
-    <View
-      style={[
-        styles.fabLocation,
-        position === 'bl' ? styles.left : styles.right,
-      ]}>
-      <TouchableNativeFeedback
-        onPress={onPress}
-        background={TouchableNativeFeedback.Ripple('#28425B', true, 30)}>
-        <View style={styles.fab}>
-          <Text style={styles.fabText}>{title}</Text>
-        </View>
-      </TouchableNativeFeedback>
-    </View>
-  );
+  return Platform.OS === 'ios' ? ios() : android();
 };
 
 const styles = StyleSheet.create({
